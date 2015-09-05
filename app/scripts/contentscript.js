@@ -24,7 +24,7 @@ function notify(music) {
     webhookUrl: ''
   }, function(items) {
     var webhookUrl = items.webhookUrl;
-    var username = 'Playing ' + username;
+    var username = 'Playing ' + music.artist;
 
     if (webhookUrl == '') return;
 
