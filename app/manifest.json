@@ -14,14 +14,21 @@
       "scripts/background.js"
     ]
   },
-  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+  "permissions": [
+    "storage"
+  ],
   "content_scripts": [
     {
       "matches": [
         "https://play.google.com/music/listen*"
       ],
       "js": [
-        "scripts/contentscript.js"
+        "scripts/contentscript.js",
+        "bower_components/fetch/fetch.js"
       ],
       "run_at": "document_end",
       "all_frames": false

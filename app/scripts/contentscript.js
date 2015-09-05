@@ -1,14 +1,12 @@
 'use strict';
 
-console.log('\'Allo \'Allo! Content script');
-
 var song = {};
 var timer = setInterval(function() {
-  var songNow = {};
+var songNow = {};
 
-  songNow.title = document.getElementById('player-song-title').innerText;
-  songNow.artist = document.getElementById('player-artist').innerText;
-  songNow.album = document.getElementsByClassName('player-album')[0].innerText;
+songNow.title = document.getElementById('player-song-title').innerText;
+songNow.artist = document.getElementById('player-artist').innerText;
+songNow.album = document.getElementsByClassName('player-album')[0].innerText;
 
   if (JSON.stringify(song) != JSON.stringify(songNow)) {
     song.title = songNow.title;
@@ -20,24 +18,38 @@ var timer = setInterval(function() {
 }, 1000);
 
 function notify(music) {
-  // alert('🎵  ' + trackToString(track));
   console.log('🎵  ' + trackToString(music));
-  // postToSlack(messageForSlack(track, music), music, track);
-}
 
-// function messageForSlack(track, music) {
-//   function link(text, url) {
-//     return '<' + url + '|' + text + '>'
-//   }
-//
-//   var trackStr = track.name
-//
-//   var url = music && music.trackViewUrl
-//   var message = url ? link(trackStr, url) : trackStr
-//
-//   return '🎵  ' + message
-// }
+  chrome.storage.sync.get({
+    webhookUrl: ''
+  }, function(items) {
+    var webhookUrl = items.webhookUrl;
+    var username = 'Playing ' + username;
+
+    if (webhookUrl == '') return;
+
+    postToSlack(webhookUrl, username, messageForSlack(music));
+  });
+}
 
 function trackToString(music) {
   return music.album + ' - ' + music.title;
+}
+
+function messageForSlack(music) {
+  var album = music.album;
+  var title = music.title;
+  var message = album + ' - ' + title;
+
+  return '🎵  ' + message;
+}
+
+function postToSlack(webhookUrl, username, message) {
+  return fetch(webhookUrl, {
+    method: 'post',
+    body: JSON.stringify({
+      text: message,
+      username: username
+    })
+  });
 }
