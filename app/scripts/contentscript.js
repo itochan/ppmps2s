@@ -2,11 +2,11 @@
 
 var song = {};
 var timer = setInterval(function() {
-var songNow = {};
+  var songNow = {};
 
-songNow.title = document.getElementById('player-song-title').innerText;
-songNow.artist = document.getElementById('player-artist').innerText;
-songNow.album = document.getElementsByClassName('player-album')[0].innerText;
+  songNow.title = document.getElementById('player-song-title').innerText;
+  songNow.artist = document.getElementById('player-artist').innerText;
+  songNow.album = document.getElementsByClassName('player-album')[0].innerText;
 
   if (JSON.stringify(song) != JSON.stringify(songNow)) {
     song.title = songNow.title;
