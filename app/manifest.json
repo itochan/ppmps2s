@@ -18,8 +18,7 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "https://play.google.com/music/listen*"
       ],
       "js": [
         "scripts/contentscript.js"
